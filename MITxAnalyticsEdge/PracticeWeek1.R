@@ -1,4 +1,4 @@
-#Read the WHO.csv file
+#---------------------------------------------LECTURE: WHO DATA ANALYSIS---------------------------------------------#
 WHO = read.csv("WHO.csv",stringsAsFactors=FALSE)
 
 #Analyze the dataframe using numerical descriptive statistics
@@ -38,3 +38,40 @@ table(WHO$Region)
 tapply(WHO$Over60, WHO$Region, mean)
 tapply(WHO$LiteracyRate, WHO$Region, min, na.rm = TRUE)
 which.min(tapply(WHO$ChildMortality, WHO$Region, min, na.rm = TRUE))
+
+#---------------------------------------------LECTURE: USDA DATA ANALYSIS---------------------------------------------#
+
+USDA = read.csv("USDA.csv", stringsAsFactors = FALSE)
+str(USDA)
+summary(USDA)
+names(USDA)
+
+USDA$Description[which.max(USDA$Cholesterol)]
+USDA$Description[which.max(USDA$Sodium)]
+
+HighSodium = subset(USDA, USDA$Sodium > 10000)
+nrow(HighSodium)
+HighSodium$Description
+sd(USDA$Sodium, na.rm = TRUE)
+
+max(USDA$VitaminC)
+plot(USDA$Protein, USDA$TotalFat, xlab = "Protein", ylab = "Fat", main = "Protein vs Fat", col = "red")
+hist(USDA$VitaminC, xlab = "Vitamin C (mg)", main = "Histogram of Vitaminc C Levels", xlim = c(0,100), breaks = 2000)
+boxplot(USDA$Sugar, ylab = "Sugar (grams)", main = "Boxplot of Sugar Levels")
+
+
+USDA$HighSodium = as.numeric(USDA$Sodium > mean(USDA$Sodium, na.rm = TRUE))
+USDA$HighProtein = as.numeric(USDA$Protein > mean(USDA$Protein, na.rm = TRUE))
+USDA$HighFat = as.numeric(USDA$TotalFat > mean(USDA$TotalFat, na.rm = TRUE))
+USDA$HighCarb = as.numeric(USDA$Carbohydrate > mean(USDA$Carbohydrate, na.rm = TRUE))
+names(USDA)
+
+table(USDA$HighSodium)
+table(USDA$HighSodium, USDA$HighSodium)
+
+#Groups argument1 elements by argument2 and applies argument3
+tapply(USDA$Iron, USDA$HighProtein, mean, na.rm = TRUE)
+tapply(USDA$VitaminC, USDA$HighCarb, summary, na.rm = TRUE)
+
+#---------------------------------------------ASSIGNMENT: CHICAGO CRIME ANALYSIS---------------------------------------------#
+
